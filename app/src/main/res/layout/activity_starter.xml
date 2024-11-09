@@ -16,14 +16,17 @@
         android:textSize="45sp"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="37dp"
-        tools:layout_editor_absoluteY="194dp" />
+        tools:layout_editor_absoluteY="194dp"
+        android:labelFor="@+id/enterName"/>
 
     <EditText
+        android:id="@+id/enterName"
         android:layout_width="291dp"
         android:layout_height="71dp"
         tools:ignore="MissingConstraints"
         tools:layout_editor_absoluteX="60dp"
-        tools:layout_editor_absoluteY="287dp" />
+        tools:layout_editor_absoluteY="287dp"
+        android:inputType="text" />
 
     <Button
         android:id="@+id/button4"
