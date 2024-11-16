@@ -14,12 +14,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button startButton = findViewById(R.id.button);
+        Button quitButton = findViewById(R.id.button3);
 
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, TaskGeneratorActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        quitButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+                System.exit(0);
             }
         });
     }
