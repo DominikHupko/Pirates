@@ -7,7 +7,15 @@
     android:background="@color/blue"
     tools:context=".MainActivity">
 
+    <ImageView
+        android:layout_width="183dp"
+        android:layout_height="160dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:src="@drawable/img"
+        />
     <TextView
+        android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="@font/pirata_one"
@@ -17,7 +25,7 @@
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+         />
 
     <Button
         android:id="@+id/button"
@@ -27,7 +35,7 @@
         android:text="Start"
         android:textColor="@color/white"
         android:textSize="35sp"
-        app:layout_constraintTop_toBottomOf="@+id/textView"
+        app:layout_constraintBottom_toTopOf="@id/button2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:elevation="10dp"/>
@@ -40,7 +48,7 @@
         android:text="Scoreboard"
         android:textColor="@color/white"
         android:textSize="35sp"
-        app:layout_constraintTop_toBottomOf="@+id/button"
+        app:layout_constraintBottom_toTopOf="@id/button3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:elevation="10dp"/>
@@ -55,7 +63,7 @@
         android:text="Quit"
         android:textColor="@color/white"
         android:textSize="35sp"
-        app:layout_constraintTop_toBottomOf="@+id/button2"
+        app:layout_constraintBottom_toTopOf="@id/imageView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:elevation="10dp"/>
