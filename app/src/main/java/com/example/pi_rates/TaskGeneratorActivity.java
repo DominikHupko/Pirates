@@ -92,7 +92,9 @@ public class TaskGeneratorActivity extends AppCompatActivity {
             selectedOption.setBackgroundResource(R.drawable.incorrect_answer_background);
             score -= 20;
         }
-
+        if (score < 0) {
+            score = 0;
+        }
         scoreTextView.setText("Score: " + score);
 
         generateNewTask();
