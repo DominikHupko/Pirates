@@ -83,12 +83,14 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         int selectedAnswer = Integer.parseInt(selectedOption.getText().toString());
 
         if (selectedAnswer == correctAnswer) {
-            feedbackTextView.setText("Helyes válasz!");
+            feedbackTextView.setText("Correct!");
+            feedbackTextView.setTextColor(getColor(R.color.green));
             selectedOption.setBackgroundResource(R.drawable.correct_answer_background);
             score += 10;
             correctAnswerCount++;
         } else {
-            feedbackTextView.setText("Helytelen válasz, próbálkozz újra!");
+            feedbackTextView.setText("Incorrect, try again!");
+            feedbackTextView.setTextColor(getColor(R.color.red));
             selectedOption.setBackgroundResource(R.drawable.incorrect_answer_background);
             score -= 20;
         }
