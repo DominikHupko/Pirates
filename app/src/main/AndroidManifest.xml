@@ -12,20 +12,17 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pirates"
         tools:targetApi="31">
-        <activity
-            android:name=".StarterActivity"
-            android:exported="true">
+        <activity android:name=".MainActivity" android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".MainActivity"
-            android:exported="false">
+        <activity android:name=".TaskGeneratorActivity" android:exported="false" /> <!-- TaskGeneratorActivity regisztrálása -->
 
-        </activity>
+        <activity
+            android:name=".StarterActivity"
+            android:exported="false" />
     </application>
 
 </manifest>
