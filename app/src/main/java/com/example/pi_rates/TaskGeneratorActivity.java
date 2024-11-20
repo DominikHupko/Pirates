@@ -40,6 +40,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
     private void generateNewTask() {
         if (correctAnswerCount % 5 == 0 && correctAnswerCount > 0) {
             level++;
+            correctAnswerCount=0;
         }
 
         levelTextView.setText("Level: " + level);
