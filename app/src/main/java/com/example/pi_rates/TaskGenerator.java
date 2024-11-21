@@ -11,9 +11,9 @@ public class TaskGenerator {
         int num1, num2, correctAnswer;
         String question;
 
-        int minValue = Math.max(5, level * 2);
-        int maxValue = level * 10;
-        int maxResult = level * level * 20;
+        int minValue = Math.min(10, level );
+        int maxValue = Math.min(50, level * 10);
+        int maxResult = Math.min(100, level * 10+10);
 
         int operationChoice = random.nextInt(Math.min(level, 4));
         switch (operationChoice) {
@@ -82,12 +82,12 @@ public class TaskGenerator {
         int maxRetries = 100;
         int num1, num2, correctAnswer;
 
-        int rangeMin = minValue / 2;
-        int rangeMax = maxValue / 5;
+
 
         while (retries <= maxRetries) {
-            num1 = getRandomNumber(rangeMin, rangeMax);
-            num2 = getRandomNumber(rangeMin, rangeMax);
+
+            num1 = getRandomNumber(minValue, maxValue);
+            num2 = getRandomNumber(minValue, maxValue);
             correctAnswer = num1 * num2;
 
             if (correctAnswer <= maxResult) {
@@ -97,7 +97,7 @@ public class TaskGenerator {
             }
 
             retries++;
-            rangeMax = Math.max(rangeMin, rangeMax - 1);
+            maxValue = Math.max(minValue, maxValue - 1);
         }
 
         return new Task("*", 1, "Retry Limit Exceeded", -1, new String[]{"0", "0", "0", "0"});
@@ -108,8 +108,9 @@ public class TaskGenerator {
         int maxRetries = 100;
         int num1, num2, correctAnswer;
         do {
-            num2 = getRandomNumber(1, level);
-            num1 = num2 * getRandomNumber(minValue, maxValue / 2);
+
+            num2 =  getRandomNumber(1,Math.min(10, level+2 ));
+            num1 = num2 *  getRandomNumber(1,Math.min(10, level+2 ));
             correctAnswer = num1 / num2;
             retries++;
             if (retries > maxRetries || correctAnswer == 0) {

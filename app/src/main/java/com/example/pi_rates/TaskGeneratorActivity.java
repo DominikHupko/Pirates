@@ -38,7 +38,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
     }
 
     private void generateNewTask() {
-        if (correctAnswerCount % 5 == 0 && correctAnswerCount > 0) {
+        if (correctAnswerCount % 10 == 0 && correctAnswerCount > 0) {
             level++;
             correctAnswerCount=0;
             showLevelUpPopup();
@@ -58,12 +58,12 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         int wrongAnswer1, wrongAnswer2;
 
         do {
-            wrongAnswer1 = correctAnswer + random.nextInt(8) + 2;
-        } while (wrongAnswer1 == correctAnswer);
+            wrongAnswer1 = correctAnswer + (random.nextInt(16) - 8);
+        } while (wrongAnswer1 ==0 || wrongAnswer1 == correctAnswer || wrongAnswer1>100 || wrongAnswer1<0);
 
         do {
-            wrongAnswer2 = correctAnswer - random.nextInt(8) + 2;
-        } while (wrongAnswer2 == correctAnswer || wrongAnswer2 == wrongAnswer1);
+            wrongAnswer2 = correctAnswer + (random.nextInt(16) - 8);
+        } while (wrongAnswer2 ==0 || wrongAnswer2 == correctAnswer || wrongAnswer2 == wrongAnswer1 || wrongAnswer2>100 || wrongAnswer2<0);
 
         answers.add(wrongAnswer1);
         answers.add(wrongAnswer2);
@@ -94,7 +94,6 @@ public class TaskGeneratorActivity extends AppCompatActivity {
             feedbackTextView.setText("Incorrect, try again!");
             feedbackTextView.setTextColor(getColor(R.color.red));
             selectedOption.setBackgroundResource(R.drawable.incorrect_answer_background);
-            score -= 20;
         }
         if (score < 0) {
             score = 0;
