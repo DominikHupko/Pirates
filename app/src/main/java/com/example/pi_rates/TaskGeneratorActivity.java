@@ -41,6 +41,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         if (correctAnswerCount % 5 == 0 && correctAnswerCount > 0) {
             level++;
             correctAnswerCount=0;
+            showLevelUpPopup();
         }
 
         levelTextView.setText("Level: " + level);
@@ -102,4 +103,10 @@ public class TaskGeneratorActivity extends AppCompatActivity {
 
         generateNewTask();
     }
+
+    private void showLevelUpPopup() {
+        LevelUpPopupFragment popupFragment = new LevelUpPopupFragment();
+        popupFragment.show(getSupportFragmentManager(), "LevelUpPopup");
+    }
+
 }
