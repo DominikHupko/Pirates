@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Pi Rates</string>
     <string name="start_button">Start</string>
+    <string name="welcome">Welcome to</string>
 </resources>

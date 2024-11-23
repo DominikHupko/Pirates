@@ -7,6 +7,7 @@
     android:background="@color/blue"
     tools:context=".MainActivity">
 
+
     <ImageView
         android:layout_width="183dp"
         android:layout_height="160dp"
@@ -85,5 +86,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/tree"
         android:elevation="1dp"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

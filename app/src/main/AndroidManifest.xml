@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Pirates"
         tools:targetApi="31">
-        <activity android:name=".MainActivity" android:exported="true" android:screenOrientation="portrait">
+        <activity android:name=".StarterActivity" android:exported="true" android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,7 +21,7 @@
         <activity android:name=".TaskGeneratorActivity" android:exported="false" android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".StarterActivity"
+            android:name=".MainActivity"
             android:exported="false"
             android:screenOrientation="portrait"/>
     </application>
