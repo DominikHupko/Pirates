@@ -1,8 +1,12 @@
 package com.example.pi_rates;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,6 +20,8 @@ public class TaskGeneratorActivity extends AppCompatActivity {
     private int taskCount = 0;
     private int correctAnswerCount = 0;
     private int level = 1;
+
+    private CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +41,9 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         option1.setOnClickListener(v -> checkAnswer(option1));
         option2.setOnClickListener(v -> checkAnswer(option2));
         option3.setOnClickListener(v -> checkAnswer(option3));
+
+
+        startCountDownTimer();
     }
 
     private void generateNewTask() {
@@ -101,6 +110,51 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         scoreTextView.setText("Score: " + score);
 
         generateNewTask();
+    }
+
+    private void startCountDownTimer() {
+        countDownTimer = new CountDownTimer(30000, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                
+            }
+
+            @Override
+            public void onFinish() {
+                showTimeUpDialog();
+            }
+        };
+        countDownTimer.start();
+    }
+
+    private void showTimeUpDialog() {
+        countDownTimer.cancel();
+
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_time_up, null);
+
+        TextView timeUpMessage = dialogView.findViewById(R.id.timeUpMessage);
+        TextView finalScoreMessage = dialogView.findViewById(R.id.finalScoreMessage);
+        Button backToMainMenuButton = dialogView.findViewById(R.id.backToMainMenuButton);
+        Button highScoreButton = dialogView.findViewById(R.id.highScoreButton);
+
+        finalScoreMessage.setText("Your final score: " + score);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(TaskGeneratorActivity.this);
+        builder.setView(dialogView);
+
+
+        AlertDialog dialog = builder.create();
+        dialog.setCancelable(false);
+        dialog.show();
+
+        backToMainMenuButton.setOnClickListener(v -> {
+            Intent intent = new Intent(TaskGeneratorActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
+
+        highScoreButton.setOnClickListener(v -> {
+        });
     }
 
     private void showLevelUpPopup() {
