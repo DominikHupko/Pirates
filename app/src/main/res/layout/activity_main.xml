@@ -85,6 +85,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:srcCompat="@drawable/tree"
+        android:onClick="Testing"
         android:elevation="1dp"/>
 
 
