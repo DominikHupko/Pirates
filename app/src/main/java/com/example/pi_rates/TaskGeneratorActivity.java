@@ -21,6 +21,8 @@ public class TaskGeneratorActivity extends AppCompatActivity {
     private int correctAnswerCount = 0;
     private int level = 1;
 
+    private TextView timerTextView;
+
     private CountDownTimer countDownTimer;
 
     @Override
@@ -35,6 +37,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         feedbackTextView = findViewById(R.id.feedbackTextView);
         scoreTextView = findViewById(R.id.scoreTextView);
         levelTextView = findViewById(R.id.levelTextView);
+        timerTextView = findViewById(R.id.timerTextView);
 
         generateNewTask();
 
@@ -116,7 +119,14 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         countDownTimer = new CountDownTimer(30000, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                
+                int secondsRemaining = (int) millisUntilFinished / 1000;
+                timerTextView.setText("Time: " + secondsRemaining);
+
+                if (secondsRemaining <= 10) {
+                    timerTextView.setTextColor(getColor(R.color.red));
+                } else {
+                    timerTextView.setTextColor(getColor(R.color.black));
+                }
             }
 
             @Override
