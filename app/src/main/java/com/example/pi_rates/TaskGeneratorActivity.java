@@ -168,8 +168,10 @@ public class TaskGeneratorActivity extends AppCompatActivity {
     }
 
     private void showLevelUpPopup() {
+
         LevelUpPopupFragment popupFragment = new LevelUpPopupFragment();
         popupFragment.show(getSupportFragmentManager(), "LevelUpPopup");
+
     }
 
 }
