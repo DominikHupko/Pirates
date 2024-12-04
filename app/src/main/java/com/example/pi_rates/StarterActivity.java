@@ -3,7 +3,9 @@ package com.example.pi_rates;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -82,6 +84,10 @@ public class StarterActivity extends AppCompatActivity {
             String name = json.getString("username");
             Intent intent = new Intent(StarterActivity.this,MainActivity.class);
             intent.putExtra("USER_NAME",name);
+            SharedPreferences sharedPreferences = getSharedPreferences("UserLog", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("USER_NAME", name);
+            editor.apply();
             startActivity(intent);
             finish();
         }catch (JSONException exp){
