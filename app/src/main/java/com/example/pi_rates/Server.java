@@ -16,7 +16,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Server {
-    public static final String url = "https://e286-109-245-34-120.ngrok-free.app";
+    public static final String url = "https://b8b5-109-245-32-77.ngrok-free.app";
     private Context context;
     public Server(Context context){
         this.context = context;
@@ -56,7 +56,7 @@ public class Server {
             catch (JSONException exp){
                 Log.d("JSONERROR","Error: " + exp);
             }
-            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, url, jsonObject,
+            JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, link, jsonObject,
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {

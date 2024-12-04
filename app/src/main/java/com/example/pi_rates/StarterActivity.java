@@ -79,7 +79,7 @@ public class StarterActivity extends AppCompatActivity {
     }
     private void parseJson(JSONObject json){
         try{
-            String name = json.getString("USER_NAME");
+            String name = json.getString("username");
             Intent intent = new Intent(StarterActivity.this,MainActivity.class);
             intent.putExtra("USER_NAME",name);
             startActivity(intent);
