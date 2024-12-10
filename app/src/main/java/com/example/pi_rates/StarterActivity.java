@@ -3,12 +3,18 @@ package com.example.pi_rates;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.Random;
 
@@ -39,16 +45,23 @@ public class StarterActivity extends AppCompatActivity {
 
 
         positiveButton.setOnClickListener(v -> {
+            positiveButton.setEnabled(false);
+            negativeButton.setEnabled(false);
             String name = nameInput.getText().toString().trim();
             if (!name.isEmpty()) {
-                String playerName = name + "#" + generateRandomNumber();
-                Intent intent = new Intent(StarterActivity.this, MainActivity.class);
-                intent.putExtra("USER_NAME", playerName);
-                startActivity(intent);
-                finish();
-                dialog.dismiss();
+                String link = Server.getURL() + "/sendUserName";
+                Server server = new Server(this);
+                server.sendUserName(link, name,new Server.GotJson() {
+                    @Override
+                    public void onSuccess(JSONObject response){
+                        dialog.dismiss();
+                        parseJson(response);
+                    }
+                });
             } else {
                 Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
+                positiveButton.setEnabled(true);
+                negativeButton.setEnabled(true);
             }
         });
 
@@ -69,5 +82,20 @@ public class StarterActivity extends AppCompatActivity {
         Random random = new Random();
         int number = random.nextInt(9000) + 1000;
         return String.valueOf(number);
+    }
+    private void parseJson(JSONObject json){
+        try{
+            String name = json.getString("username");
+            Intent intent = new Intent(StarterActivity.this,MainActivity.class);
+            intent.putExtra("USER_NAME",name);
+            SharedPreferences sharedPreferences = getSharedPreferences("UserLog", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("USER_NAME", name);
+            editor.apply();
+            startActivity(intent);
+            finish();
+        }catch (JSONException exp){
+            Log.d("Json error","Error: " + exp);
+        }
     }
 }

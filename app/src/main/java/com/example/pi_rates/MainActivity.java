@@ -81,7 +81,7 @@ public class MainActivity extends AppCompatActivity {
 
         dialog.show();
     }
-    public void Testing(View view){
+    public void Testing(View view) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_server_connection, null);
         builder.setView(dialogView);
@@ -91,37 +91,25 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
 
         connection_button.setOnClickListener(v -> {
-            String link = link_text.getText().toString().trim();
-            if(!link.isEmpty()){
-                RequestQueue queue = Volley.newRequestQueue(this);
-                //String url = "https://api.openweathermap.org/data/2.5/forecast/?id=3189595&units=metric&appid=5459d1266c4c46f65063264f743f6b15";
-
-                // Request a string response from the provided URL.
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, link,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                // Display the first 500 characters of the response string.
-                                dialog.dismiss();
-                                write(response);
-                            }
-                        }, new Response.ErrorListener() {
+            String link = Server.getURL() + "/connection";
+            if (!link.isEmpty()) {
+                Server server = new Server(this);
+                server.connection(link, new Server.ConnectionChecked() {
                     @Override
-                    public void onErrorResponse(VolleyError error) {
-                        Log.d("asd1","Nem ment a load");
+                    public void onSuccess(String response) {
+                        dialog.dismiss();
+                        write(response); // Handle response in your activity
                     }
                 });
-
-// Add the request to the RequestQueue.
-                queue.add(stringRequest);
-            }
-            else{
+            } else {
                 Toast.makeText(this, "Please enter a valid link", Toast.LENGTH_SHORT).show();
                 dialog.dismiss();
             }
         });
+
         dialog.show();
     }
+
     private void write(String response){
         Toast.makeText(this, "Server: " + response, Toast.LENGTH_SHORT).show();
     }
