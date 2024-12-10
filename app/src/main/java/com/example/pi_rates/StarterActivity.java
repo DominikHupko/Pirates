@@ -45,6 +45,8 @@ public class StarterActivity extends AppCompatActivity {
 
 
         positiveButton.setOnClickListener(v -> {
+            positiveButton.setEnabled(false);
+            negativeButton.setEnabled(false);
             String name = nameInput.getText().toString().trim();
             if (!name.isEmpty()) {
                 String link = Server.getURL() + "/sendUserName";
@@ -58,6 +60,8 @@ public class StarterActivity extends AppCompatActivity {
                 });
             } else {
                 Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
+                positiveButton.setEnabled(true);
+                negativeButton.setEnabled(true);
             }
         });
 
