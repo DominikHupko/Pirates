@@ -47,7 +47,7 @@ public class StarterActivity extends AppCompatActivity {
         positiveButton.setOnClickListener(v -> {
             String name = nameInput.getText().toString().trim();
             if (!name.isEmpty()) {
-                String link = Server.url + "/sendUserName";
+                String link = Server.getURL() + "/sendUserName";
                 Server server = new Server(this);
                 server.sendUserName(link, name,new Server.GotJson() {
                     @Override

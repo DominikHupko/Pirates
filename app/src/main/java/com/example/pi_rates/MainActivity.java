@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = builder.create();
 
         connection_button.setOnClickListener(v -> {
-            String link = Server.url + "/connection";
+            String link = Server.getURL() + "/connection";
             if (!link.isEmpty()) {
                 Server server = new Server(this);
                 server.connection(link, new Server.ConnectionChecked() {
