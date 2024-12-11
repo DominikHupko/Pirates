@@ -13,7 +13,8 @@ import java.util.Collections;
 import java.util.Random;
 
 public class TaskGeneratorActivity extends AppCompatActivity {
-
+    private CountDownTimer countDownTimer;
+    private long timeLeftInMillis = 31000;
     private TextView option1, option2, option3;
     private TextView taskTextView, feedbackTextView, scoreTextView, levelTextView;
     private int correctAnswer, score = 0;
@@ -23,7 +24,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
 
     private TextView timerTextView;
 
-    private CountDownTimer countDownTimer;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
             level++;
             correctAnswerCount=0;
             showLevelUpPopup();
+            addTimeToTimer(10000);
         }
 
         levelTextView.setText("Level: " + level);
@@ -102,6 +104,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
             selectedOption.setBackgroundResource(R.drawable.correct_answer_background);
             score += 10;
             correctAnswerCount++;
+
         } else {
             feedbackTextView.setText("Incorrect, try again!");
             feedbackTextView.setTextColor(getColor(R.color.red));
@@ -114,12 +117,25 @@ public class TaskGeneratorActivity extends AppCompatActivity {
 
         generateNewTask();
     }
+    private void addTimeToTimer(long additionalTimeInMillis) {
+        // Cancel the current timer
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+        }
 
+        // Add time and restart the timer
+        if(timeLeftInMillis + additionalTimeInMillis>31000)
+            timeLeftInMillis = 31000;
+        else
+        timeLeftInMillis += additionalTimeInMillis;
+        startCountDownTimer();
+    }
     private void startCountDownTimer() {
-        countDownTimer = new CountDownTimer(30000, 1000) {
+        countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
-                int secondsRemaining = (int) millisUntilFinished / 1000;
+                timeLeftInMillis = millisUntilFinished; // Update the remaining time
+                int secondsRemaining = (int) (millisUntilFinished / 1000);
                 timerTextView.setText("Time: " + secondsRemaining);
 
                 if (secondsRemaining <= 10) {
@@ -136,6 +152,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         };
         countDownTimer.start();
     }
+
 
     private void showTimeUpDialog() {
         countDownTimer.cancel();
