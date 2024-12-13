@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,8 +22,11 @@ public class TaskGeneratorActivity extends AppCompatActivity {
     private int taskCount = 0;
     private int correctAnswerCount = 0;
     private int level = 1;
-
     private TextView timerTextView;
+
+    private int lives = 3;
+    private ImageView life1, life2, life3;
+
 
 
 
@@ -39,6 +43,10 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         scoreTextView = findViewById(R.id.scoreTextView);
         levelTextView = findViewById(R.id.levelTextView);
         timerTextView = findViewById(R.id.timerTextView);
+        life1 = findViewById(R.id.life1);
+        life2 = findViewById(R.id.life2);
+        life3 = findViewById(R.id.life3);
+
 
         generateNewTask();
 
@@ -49,6 +57,22 @@ public class TaskGeneratorActivity extends AppCompatActivity {
 
         startCountDownTimer();
     }
+
+    private void reduceLife() {
+        if (lives == 3) {
+            life3.setVisibility(View.INVISIBLE);
+        } else if (lives == 2) {
+            life2.setVisibility(View.INVISIBLE);
+        } else if (lives == 1) {
+            life1.setVisibility(View.INVISIBLE);
+            showGameOverDialog();
+        } else {
+            showGameOverDialog();
+        }
+
+        lives--;
+    }
+
 
     private void generateNewTask() {
         if (correctAnswerCount % 10 == 0 && correctAnswerCount > 0) {
@@ -104,12 +128,13 @@ public class TaskGeneratorActivity extends AppCompatActivity {
             selectedOption.setBackgroundResource(R.drawable.correct_answer_background);
             score += 10;
             correctAnswerCount++;
-
         } else {
             feedbackTextView.setText("Incorrect, try again!");
             feedbackTextView.setTextColor(getColor(R.color.red));
             selectedOption.setBackgroundResource(R.drawable.incorrect_answer_background);
+            reduceLife();
         }
+
         if (score < 0) {
             score = 0;
         }
@@ -117,6 +142,30 @@ public class TaskGeneratorActivity extends AppCompatActivity {
 
         generateNewTask();
     }
+
+    private void showGameOverDialog() {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_game_over, null);
+
+        TextView gameOverMessage = dialogView.findViewById(R.id.gameOverMessage);
+        TextView finalScoreMessage = dialogView.findViewById(R.id.finalScoreMessage);
+        Button backToMainMenuButton = dialogView.findViewById(R.id.backToMainMenuButton);
+
+        finalScoreMessage.setText("Your final score: " + score);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(TaskGeneratorActivity.this);
+        builder.setView(dialogView);
+
+        AlertDialog dialog = builder.create();
+        dialog.setCancelable(false);
+        dialog.show();
+
+        backToMainMenuButton.setOnClickListener(v -> {
+            Intent intent = new Intent(TaskGeneratorActivity.this, MainActivity.class);
+            startActivity(intent);
+            finish();
+        });
+    }
+
     private void addTimeToTimer(long additionalTimeInMillis) {
         // Cancel the current timer
         if (countDownTimer != null) {
