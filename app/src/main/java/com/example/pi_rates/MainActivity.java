@@ -21,6 +21,7 @@ import com.android.volley.toolbox.Volley;
 
 public class MainActivity extends AppCompatActivity {
 
+    public String userName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        String userName = intent.getStringExtra("USER_NAME");
+        userName = intent.getStringExtra("USER_NAME");
 
 
         Button startButton = findViewById(R.id.button);
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, TaskGeneratorActivity.class);
+                intent.putExtra("USER_NAME", userName);
                 startActivity(intent);
             }
         });
@@ -112,5 +114,11 @@ public class MainActivity extends AppCompatActivity {
 
     private void write(String response){
         Toast.makeText(this, "Server: " + response, Toast.LENGTH_SHORT).show();
+    }
+    public void scoreBoard(View view){
+        Intent intent = new Intent(MainActivity.this, HighScoreActivity.class);
+        intent.putExtra("USER_NAME", userName);
+        startActivity(intent);
+        finish();
     }
 }

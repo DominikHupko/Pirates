@@ -52,7 +52,8 @@
         app:layout_constraintBottom_toTopOf="@id/button3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:elevation="10dp"/>
+        android:elevation="10dp"
+        android:onClick="scoreBoard"/>
 
     <Button
         android:id="@+id/button3"
