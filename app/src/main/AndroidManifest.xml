@@ -20,6 +20,7 @@
         <activity
             android:name=".StarterActivity"
             android:exported="false" />
+        <activity android:name=".SettingsActivity" />
         <activity
             android:name=".Splash"
             android:exported="true"
