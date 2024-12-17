@@ -1,5 +1,9 @@
 package com.example.pi_rates;
 
+import static android.content.Intent.getIntent;
+
+import android.content.Intent;
+
 import java.util.Random;
 
 public class TaskGenerator {

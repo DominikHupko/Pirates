@@ -1,11 +1,15 @@
 package com.example.pi_rates;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -21,6 +25,7 @@ import com.android.volley.toolbox.Volley;
 
 public class MainActivity extends AppCompatActivity {
 
+    public String userName;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
 
         Intent intent = getIntent();
-        String userName = intent.getStringExtra("USER_NAME");
+        userName = intent.getStringExtra("USER_NAME");
 
 
         Button startButton = findViewById(R.id.button);
@@ -38,8 +43,7 @@ public class MainActivity extends AppCompatActivity {
         startButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, TaskGeneratorActivity.class);
-                startActivity(intent);
+                showLevelInputDialog();
             }
         });
 
@@ -110,7 +114,79 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
 
+    private void showLevelInputDialog() {
+        // Create a Dialog
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+
+        // Inflate the custom layout for the dialog
+        LayoutInflater inflater = this.getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_level_input, null);
+        dialogBuilder.setView(dialogView);
+
+        // Find the EditText and Buttons in the custom dialog layout
+        final EditText levelInput = dialogView.findViewById(R.id.dialogLevelInput);
+        Button customStartButton = dialogView.findViewById(R.id.customStartButton);
+        // Set the dialog buttons
+        customStartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String levelText = levelInput.getText().toString().trim();
+
+                if (!levelText.isEmpty()) {
+                    int startingLevel = Integer.parseInt(levelText);
+
+                    // Send the starting level to the GameActivity
+                    Intent intent = new Intent(MainActivity.this, TaskGeneratorActivity.class);
+                    intent.putExtra("START_LEVEL", startingLevel);
+                    intent.putExtra("USER_NAME", userName);
+                    startActivity(intent);
+                } else {
+                    Toast.makeText(MainActivity.this, "Please enter a valid level!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        //dialogBuilder.setNegativeButton("Cancel", null); // Dismiss on Cancel
+        AlertDialog dialog = dialogBuilder.create();
+        if(!isFinishing()) {
+            dialog.show();
+        }
+    }
+
     private void write(String response){
         Toast.makeText(this, "Server: " + response, Toast.LENGTH_SHORT).show();
+    }
+    public void scoreBoard(View view){
+        Intent intent = new Intent(MainActivity.this, HighScoreActivity.class);
+        intent.putExtra("USER_NAME", userName);
+        startActivity(intent);
+        finish();
+    }
+    public void openSettings(View view) {
+        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+        intent.putExtra("USER_NAME", userName);
+        startActivity(intent);
+    }
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updateAvatar();
+    }
+
+    private void updateAvatar() {
+
+        SharedPreferences sharedPreferences = getSharedPreferences("UserPrefs", MODE_PRIVATE);
+        String selectedAvatar = sharedPreferences.getString("SELECTED_AVATAR", "default_avatar");
+
+
+        ImageView avatarImageView = findViewById(R.id.imageViewAvatar);
+
+        if (selectedAvatar.equals("avatar1")) {
+            avatarImageView.setImageResource(R.drawable.avatar1);
+        } else if (selectedAvatar.equals("avatar2")) {
+            avatarImageView.setImageResource(R.drawable.avatar2);
+        } else {
+            avatarImageView.setImageResource(R.drawable.avatar);
+        }
     }
 }
