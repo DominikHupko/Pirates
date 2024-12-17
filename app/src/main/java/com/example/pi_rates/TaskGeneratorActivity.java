@@ -1,5 +1,6 @@
 package com.example.pi_rates;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -54,7 +55,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         option1.setOnClickListener(v -> checkAnswer(option1));
         option2.setOnClickListener(v -> checkAnswer(option2));
         option3.setOnClickListener(v -> checkAnswer(option3));
-
+        level = intent.getIntExtra("START_LEVEL", 1);
 
         startCountDownTimer();
     }
@@ -126,6 +127,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
 
         generateNewTask();
     }
+    @SuppressLint("SuspiciousIndentation")
     private void addTimeToTimer(long additionalTimeInMillis) {
         // Cancel the current timer
         if (countDownTimer != null) {
@@ -182,7 +184,9 @@ public class TaskGeneratorActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.setCancelable(false);
-        dialog.show();
+        if(!isFinishing()) {
+            dialog.show();
+        }
 
         backToMainMenuButton.setOnClickListener(v -> {
             Intent intent = new Intent(TaskGeneratorActivity.this, MainActivity.class);
