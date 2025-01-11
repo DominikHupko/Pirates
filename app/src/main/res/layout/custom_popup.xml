@@ -7,11 +7,10 @@
     android:background="@drawable/popup_background"
     android:padding="30dp">
 
-    <ImageView
-        android:id="@+id/popup_icon"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:src="@drawable/pirate" />
+    <pl.droidsonroids.gif.GifImageView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:src="@drawable/chest"/>
 
     <TextView
         android:id="@+id/popup_message"

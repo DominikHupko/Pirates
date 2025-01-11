@@ -1,19 +1,27 @@
 package com.example.pi_rates;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
 public class TaskGeneratorActivity extends AppCompatActivity {
+    private String userName;
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis = 31000;
     private TextView option1, option2, option3;
@@ -47,13 +55,15 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         life2 = findViewById(R.id.life2);
         life3 = findViewById(R.id.life3);
 
+        Intent intent = getIntent();
+        userName =  intent.getStringExtra("USER_NAME");
 
         generateNewTask();
 
         option1.setOnClickListener(v -> checkAnswer(option1));
         option2.setOnClickListener(v -> checkAnswer(option2));
         option3.setOnClickListener(v -> checkAnswer(option3));
-
+        level = intent.getIntExtra("START_LEVEL", 1);
 
         startCountDownTimer();
     }
@@ -166,6 +176,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         });
     }
 
+    @SuppressLint("SuspiciousIndentation")
     private void addTimeToTimer(long additionalTimeInMillis) {
         // Cancel the current timer
         if (countDownTimer != null) {
@@ -206,6 +217,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
     private void showTimeUpDialog() {
         countDownTimer.cancel();
 
+
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_time_up, null);
 
         TextView timeUpMessage = dialogView.findViewById(R.id.timeUpMessage);
@@ -221,16 +233,35 @@ public class TaskGeneratorActivity extends AppCompatActivity {
 
         AlertDialog dialog = builder.create();
         dialog.setCancelable(false);
-        dialog.show();
+        if(!isFinishing()) {
+            dialog.show();
+        }
 
         backToMainMenuButton.setOnClickListener(v -> {
             Intent intent = new Intent(TaskGeneratorActivity.this, MainActivity.class);
+            intent.putExtra("USER_NAME", userName);
             startActivity(intent);
             finish();
         });
 
         highScoreButton.setOnClickListener(v -> {
+            Intent intent = new Intent(TaskGeneratorActivity.this, HighScoreActivity.class);
+            intent.putExtra("USER_NAME", userName);
+            startActivity(intent);
+            finish();
         });
+        if (!userName.equals("Geust"))
+        {
+            String link = Server.getURL() + "/score";
+            Log.d("Sended link to the server", link);
+            Server server = new Server(this);
+            server.sendScore(link, userName, score, new Server.Updated() {
+                @Override
+                public void onSuccess(JSONObject jsonObject) {
+                    Log.d("Score that ", "Server: " + jsonObject);
+                }
+            });
+        }
     }
 
     private void showLevelUpPopup() {
