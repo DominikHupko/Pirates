@@ -18,7 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Server {
-    public static String getURL() {return"https://c4b1-147-91-199-142.ngrok-free.app"; }
+    public static String getURL() {return"https://b831-80-245-99-81.ngrok-free.app"; }
     private Context context;
     public Server(Context context){
         this.context = context;
@@ -102,16 +102,8 @@ public class Server {
                 });
         requestQueue.add(request);
     }
-    public void getHighScore(String link, String name, GotScores gotScores){
-        if(!name.isEmpty()){
+    public void getHighScore(String link, JSONObject jsonObject, GotScores gotScores){
             RequestQueue requestQueue = Volley.newRequestQueue(context);
-            JSONObject jsonObject = new JSONObject();
-            try{
-                jsonObject.put("USER_NAME", name);
-            }
-            catch (JSONException exp){
-                Log.d("JSONERROR","Error: " + exp);
-            }
             JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, link, jsonObject,
                     new Response.Listener<JSONObject>() {
                         @Override
@@ -128,10 +120,6 @@ public class Server {
             );
             requestQueue.add(request);
         }
-        else {
-            Toast.makeText(context, "Enter user name", Toast.LENGTH_SHORT).show();
-        }
-    }
     public interface ConnectionChecked{
         void onSuccess(String response);
     }

@@ -35,7 +35,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
     private int lives = 3;
     private ImageView life1, life2, life3;
 
-
+    private ScoreDB db;
 
 
     @Override
@@ -57,6 +57,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         userName =  intent.getStringExtra("USER_NAME");
+        db = new ScoreDB(this);
 
         generateNewTask();
 
@@ -154,6 +155,12 @@ public class TaskGeneratorActivity extends AppCompatActivity {
     }
 
     private void showGameOverDialog() {
+
+        if (!userName.equals("Geust"))
+        {
+            db.insertScore(score);
+        }
+
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_game_over, null);
 
         TextView gameOverMessage = dialogView.findViewById(R.id.gameOverMessage);
@@ -252,15 +259,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         });
         if (!userName.equals("Geust"))
         {
-            String link = Server.getURL() + "/score";
-            Log.d("Sended link to the server", link);
-            Server server = new Server(this);
-            server.sendScore(link, userName, score, new Server.Updated() {
-                @Override
-                public void onSuccess(JSONObject jsonObject) {
-                    Log.d("Score that ", "Server: " + jsonObject);
-                }
-            });
+            db.insertScore(score);
         }
     }
 
