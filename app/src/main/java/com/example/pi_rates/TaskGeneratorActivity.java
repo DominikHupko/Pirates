@@ -159,11 +159,11 @@ public class TaskGeneratorActivity extends AppCompatActivity {
                 achievementManager.unlockAchievement("score_50");
                 showAchievementDialog("Greenhorn Pirate", "You achieved 50 points!");
             }
-            if (score >= 50 && !achievementManager.isAchievementUnlocked("score_100")) {
+            if (score >= 100 && !achievementManager.isAchievementUnlocked("score_100")) {
                 achievementManager.unlockAchievement("score_100");
                 showAchievementDialog("Pirate of Points", "You achieved 100 points!");
             }
-            if (score >= 50 && !achievementManager.isAchievementUnlocked("score_200")) {
+            if (score >= 200 && !achievementManager.isAchievementUnlocked("score_200")) {
                 achievementManager.unlockAchievement("score_200");
                 showAchievementDialog("Point Captain", "You achieved 200 points!");
             }
