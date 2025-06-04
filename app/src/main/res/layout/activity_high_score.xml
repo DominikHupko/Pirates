@@ -1,34 +1,62 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".HighScoreActivity"
-    android:orientation="vertical">
-    <ListView
-        android:id="@+id/listview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-        <Button
-            android:text="Home"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="Home"/>
-        <Button
-            android:text="My scores"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="LocalScore"/>
-        <Button
-            android:text="Global"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="GlobalScore"/>
-    </LinearLayout>
+    android:orientation="vertical"
+    android:background="@color/blue"
+    android:padding="16dp"
+    tools:context=".HighScoreActivity">
 
+<ListView
+android:id="@+id/listview"
+android:layout_width="match_parent"
+android:layout_height="0dp"
+android:layout_weight="1"
+android:dividerHeight="8dp"
+android:paddingBottom="16dp"/>
+
+<LinearLayout
+android:layout_width="match_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+android:gravity="center"
+android:weightSum="3"
+android:paddingTop="8dp"
+android:paddingBottom="8dp"
+android:layout_marginTop="8dp">
+
+<Button
+    android:text="Home"
+    android:layout_width="0dp"
+    android:layout_height="48dp"
+    android:layout_weight="1"
+    android:layout_marginEnd="8dp"
+    android:onClick="Home"
+    android:backgroundTint="@color/black"
+    android:textSize="10sp"
+    android:textColor="#FFFFFF"/>
+
+<Button
+    android:text="My scores"
+    android:layout_width="0dp"
+    android:layout_height="48dp"
+    android:layout_weight="1"
+    android:layout_marginEnd="8dp"
+    android:onClick="LocalScore"
+    android:textSize="10sp"
+    android:backgroundTint="@color/black"
+    android:textColor="#FFFFFF"/>
+
+<Button
+    android:text="Global"
+    android:layout_width="0dp"
+    android:layout_height="48dp"
+    android:layout_weight="1"
+    android:onClick="GlobalScore"
+    android:textSize="10sp"
+    android:backgroundTint="@color/black"
+    android:textColor="#FFFFFF"/>
 </LinearLayout>
+
+    </LinearLayout>

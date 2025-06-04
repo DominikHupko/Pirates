@@ -21,6 +21,7 @@
             android:name=".StarterActivity"
             android:exported="false" />
         <activity android:name=".SettingsActivity" />
+        <activity android:name=".YourAchievementsActivity" />
         <activity
             android:name=".Splash"
             android:exported="true"
