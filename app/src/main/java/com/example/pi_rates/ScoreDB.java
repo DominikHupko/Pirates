@@ -30,6 +30,8 @@ public class ScoreDB  extends SQLiteOpenHelper {
     private static final String ScoreColumn = "score";
     private static final String DateColumn = "date";
     private static final String UploadedColumn = "uploaded";
+    private static String userName = "";
+    public  void setUserName(String name){userName = name;}
 
     public ScoreDB (Context context){super(context, DataBaseName, null,Version);}
     @Override
@@ -80,7 +82,7 @@ public class ScoreDB  extends SQLiteOpenHelper {
             Log.d("ScoreDBLogD","Start reading data");
             if(cursor.moveToFirst()){
                 do{
-                    String name = cursor.getString(0);
+                    String name = userName;
                     int score = cursor.getInt(1);
                     String date = cursor.getString(2);
                     Log.d("ScoreDBLogD", "Name: " + cursor.getString(0) + "; score: " + cursor.getString(1) + "; Date: " + cursor.getString(2));
@@ -123,11 +125,15 @@ public class ScoreDB  extends SQLiteOpenHelper {
             if(users != null) {
                 JSONArray jsonArray = new JSONArray();
                 for (User user : users) {
+                    if (user == null) continue;
+                    Log.d("asd1", "Building JSON");
                     JSONObject jsonObject = new JSONObject();
                     Log.d("asd1", " " + users.length);
-                    jsonObject.put(NameCulomn, user.getName());
+                    jsonObject.put(NameCulomn, userName);
                     jsonObject.put(ScoreColumn, user.getScore());
+                    Log.d("asd1", " " + user.getScore());
                     jsonObject.put(DateColumn, user.getDate());
+                    Log.d("asd1", " " + user.getDate());
 
                     jsonArray.put(jsonObject);
                 }

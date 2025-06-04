@@ -148,6 +148,11 @@ public class MainActivity extends AppCompatActivity {
                 if (!levelText.isEmpty()) {
                     int startingLevel = Integer.parseInt(levelText);
 
+                    if (startingLevel == 0)
+                    {
+                        startingLevel += 1;
+                    }
+
                     // Send the starting level to the GameActivity
                     Intent intent = new Intent(MainActivity.this, TaskGeneratorActivity.class);
                     intent.putExtra("START_LEVEL", startingLevel);

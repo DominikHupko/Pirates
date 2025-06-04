@@ -42,12 +42,15 @@ public class HighScoreActivity extends AppCompatActivity {
         url = Server.getURL() + "/highscore";
         Log.d("asd1", "url");
         db = new ScoreDB(this);
+        db.setUserName(userName);
         download(url);
     }
     private void download(String url) {
         try{
             Server server = new Server(this);
+            Log.d("userName", "I don't know. The name is: " + userName);
             JSONObject jsonObject = db.localScorers(userName);
+            Log.d("asd1Json",jsonObject.toString());
             server.getHighScore(url, jsonObject, new Server.GotScores() {
                 @Override
                 public void onSuccess(JSONObject response){

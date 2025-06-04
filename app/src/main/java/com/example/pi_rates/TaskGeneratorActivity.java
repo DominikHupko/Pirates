@@ -246,6 +246,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
 
         backToMainMenuButton.setOnClickListener(v -> {
             Intent intent = new Intent(TaskGeneratorActivity.this, MainActivity.class);
+            intent.putExtra("USER_NAME", userName);
             startActivity(intent);
             finish();
         });
