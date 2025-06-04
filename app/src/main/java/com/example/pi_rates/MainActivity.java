@@ -3,6 +3,7 @@ package com.example.pi_rates;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,18 +27,30 @@ import com.android.volley.toolbox.Volley;
 public class MainActivity extends AppCompatActivity {
 
     public String userName;
+    private static MediaPlayer mediaPlayer;
+    private boolean isMusicPlaying = true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        // Load music state
+        SharedPreferences prefs = getSharedPreferences("MusicPrefs", MODE_PRIVATE);
+        isMusicPlaying = prefs.getBoolean("IS_MUSIC_PLAYING", true);
 
-
+        if (mediaPlayer == null) {
+            mediaPlayer = MediaPlayer.create(this, R.raw.background_music);
+            mediaPlayer.setLooping(true);
+            if (isMusicPlaying) {
+                mediaPlayer.start();
+            }
+        }
         Intent intent = getIntent();
         userName = intent.getStringExtra("USER_NAME");
 
 
         Button startButton = findViewById(R.id.button);
         Button quitButton = findViewById(R.id.button3);
+
 
 
         startButton.setOnClickListener(new View.OnClickListener() {
@@ -167,9 +180,16 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("USER_NAME", userName);
         startActivity(intent);
     }
+    public void openAchievements(View view) {
+        Intent intent = new Intent(MainActivity.this, YourAchievementsActivity.class);
+        startActivity(intent);
+    }
     @Override
     protected void onResume() {
         super.onResume();
+        if (mediaPlayer != null && isMusicPlaying && !mediaPlayer.isPlaying()) {
+            mediaPlayer.start();
+        }
         updateAvatar();
     }
 
@@ -188,5 +208,32 @@ public class MainActivity extends AppCompatActivity {
         } else {
             avatarImageView.setImageResource(R.drawable.avatar);
         }
+    }
+
+    public void toggleSound(View view) {
+        ImageView soundToggle = findViewById(R.id.soundToggle);
+
+        if (mediaPlayer != null) {
+            if (isMusicPlaying) {
+                mediaPlayer.pause();
+                soundToggle.setImageResource(R.drawable.sound_off);
+            } else {
+                mediaPlayer.start();
+                soundToggle.setImageResource(R.drawable.sound_on);
+            }
+            isMusicPlaying = !isMusicPlaying;
+
+            // Save the state to SharedPreferences
+            SharedPreferences prefs = getSharedPreferences("MusicPrefs", MODE_PRIVATE);
+            prefs.edit().putBoolean("IS_MUSIC_PLAYING", isMusicPlaying).apply();
+        }
+    }
+    @Override
+    protected void onDestroy() {
+        if (mediaPlayer != null) {
+            mediaPlayer.release();
+            mediaPlayer = null;
+        }
+        super.onDestroy();
     }
 }

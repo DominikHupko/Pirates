@@ -2,6 +2,7 @@ package com.example.pi_rates;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -34,10 +35,10 @@ public class TaskGeneratorActivity extends AppCompatActivity {
 
     private int lives = 3;
     private ImageView life1, life2, life3;
-
+    private AchievementManager achievementManager;
     private ScoreDB db;
-
-
+    int correctStreak = 0;
+    boolean madeMistake = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -66,8 +67,11 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         option3.setOnClickListener(v -> checkAnswer(option3));
         level = intent.getIntExtra("START_LEVEL", 1);
 
+        achievementManager = new AchievementManager(this);
+
         startCountDownTimer();
     }
+
 
     private void reduceLife() {
         if (lives == 3) {
@@ -84,7 +88,19 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         lives--;
     }
 
+    private void showAchievementDialog(String title, String description) {
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_achievement_unlocked, null);
+        TextView titleView = dialogView.findViewById(R.id.achievementTitle);
+        TextView descriptionView = dialogView.findViewById(R.id.achievementDescription);
 
+        titleView.setText(title);
+        descriptionView.setText(description);
+
+        new AlertDialog.Builder(this)
+                .setView(dialogView)
+                .setCancelable(true)
+                .show();
+    }
     private void generateNewTask() {
         if (correctAnswerCount % 10 == 0 && correctAnswerCount > 0) {
             level++;
@@ -139,6 +155,55 @@ public class TaskGeneratorActivity extends AppCompatActivity {
             selectedOption.setBackgroundResource(R.drawable.correct_answer_background);
             score += 10;
             correctAnswerCount++;
+            if (score >= 50 && !achievementManager.isAchievementUnlocked("score_50")) {
+                achievementManager.unlockAchievement("score_50");
+                showAchievementDialog("Greenhorn Pirate", "You achieved 50 points!");
+            }
+            if (score >= 50 && !achievementManager.isAchievementUnlocked("score_100")) {
+                achievementManager.unlockAchievement("score_100");
+                showAchievementDialog("Pirate of Points", "You achieved 100 points!");
+            }
+            if (score >= 50 && !achievementManager.isAchievementUnlocked("score_200")) {
+                achievementManager.unlockAchievement("score_200");
+                showAchievementDialog("Point Captain", "You achieved 200 points!");
+            }
+            if (level >= 5 && !achievementManager.isAchievementUnlocked("level_5")) {
+                achievementManager.unlockAchievement("level_5");
+                showAchievementDialog("Experienced Player", "You achieved the 5th level!");
+            }
+            if (correctAnswerCount >= 10 && !achievementManager.isAchievementUnlocked("correct_10")) {
+                achievementManager.unlockAchievement("correct_10");
+                showAchievementDialog("10 Good Answers", "Give 10 Correct Answers!");
+            }
+            if (selectedAnswer == correctAnswer) {
+                correctStreak++;
+                if (correctStreak >= 5 && !achievementManager.isAchievementUnlocked("correct_streak_5")) {
+                    achievementManager.unlockAchievement("correct_streak_5");
+                    showAchievementDialog("Perfect!", "5 Perfect Answers In A Row!");
+                }
+                SharedPreferences prefs = getSharedPreferences("game_stats", MODE_PRIVATE);
+                int gamesPlayed = prefs.getInt("games_played", 0) + 1;
+                prefs.edit().putInt("games_played", gamesPlayed).apply();
+
+                if (gamesPlayed >= 5 && !achievementManager.isAchievementUnlocked("play_5_games")) {
+                    achievementManager.unlockAchievement("play_5_games");
+                    showAchievementDialog("You Are Persistent!", "Play 5 Games!");
+                }
+                long answerTime = 31000 - timeLeftInMillis;
+                if (answerTime <= 3000 && !achievementManager.isAchievementUnlocked("fast_answer")) {
+                    achievementManager.unlockAchievement("fast_answer");
+                    showAchievementDialog("Flash Answer!", "You answered under 3 seconds!");
+                }
+                if (selectedAnswer != correctAnswer) {
+                    madeMistake = true;
+                }
+                if (gamesPlayed == 1 && !achievementManager.isAchievementUnlocked("first_game")) {
+                    achievementManager.unlockAchievement("first_game");
+                    showAchievementDialog("First Steps", "This was your fist game!");
+                }
+            } else {
+                correctStreak = 0;
+            }
         } else {
             feedbackTextView.setText("Incorrect, try again!");
             feedbackTextView.setTextColor(getColor(R.color.red));
@@ -160,7 +225,10 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         {
             db.insertScore(score);
         }
-
+        if (!madeMistake && !achievementManager.isAchievementUnlocked("no_mistakes")) {
+            achievementManager.unlockAchievement("no_mistakes");
+            showAchievementDialog("Perfect Game", "You had no errors!");
+        }
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_game_over, null);
 
         TextView gameOverMessage = dialogView.findViewById(R.id.gameOverMessage);
