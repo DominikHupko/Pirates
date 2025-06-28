@@ -18,7 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Server {
-    public static String getURL() {return"https://c099-109-245-225-177.ngrok-free.app"; }
+    public static String getURL() {return"https://1d08-109-245-39-28.ngrok-free.app"; }
     private Context context;
     public Server(Context context){
         this.context = context;
