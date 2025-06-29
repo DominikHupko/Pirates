@@ -23,6 +23,7 @@ import java.util.Random;
 
 public class TaskGeneratorActivity extends AppCompatActivity {
     private String userName;
+    private String difficulty;
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis = 31000;
     private TextView option1, option2, option3;
@@ -58,6 +59,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         userName =  intent.getStringExtra("USER_NAME");
+        difficulty = intent.getStringExtra("MODE");
         db = new ScoreDB(this);
 
         generateNewTask();
@@ -111,7 +113,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
 
         levelTextView.setText("Level: " + level);
 
-        Task newTask = TaskGenerator.generateTask(level);
+        Task newTask = TaskGenerator.generateTask(level, difficulty);
 
         taskTextView.setText(newTask.getQuestion());
 

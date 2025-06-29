@@ -29,6 +29,7 @@
                 android:layout_gravity="center"
                 android:src="@drawable/avatar1_silver" />
             <TextView
+                android:id="@+id/silverName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -36,6 +37,7 @@
                 android:textColor="@color/white"
                 android:text="User#2345"/>
             <TextView
+                android:id="@+id/silverScore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -59,6 +61,7 @@
                 android:layout_gravity="center"
                 android:src="@drawable/avatar1_gold" />
             <TextView
+                android:id="@+id/goldName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -66,6 +69,7 @@
                 android:textColor="@color/white"
                 android:text="User#2345"/>
             <TextView
+                android:id="@+id/goldScore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -88,6 +92,7 @@
                 android:layout_gravity="center"
                 android:src="@drawable/avatar1_bronze" />
             <TextView
+                android:id="@+id/bronzeName"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -95,6 +100,7 @@
                 android:textColor="@color/white"
                 android:text="User#2345"/>
             <TextView
+                android:id="@+id/bronzeScore"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -106,10 +112,12 @@
     <ListView
         android:id="@+id/listview"
         android:layout_width="match_parent"
+        android:layout_marginTop="15dp"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:dividerHeight="8dp"
-        android:paddingBottom="16dp"/>
+        android:paddingBottom="16dp"
+        android:background="@color/podium"/>
 
     <LinearLayout
         android:layout_width="match_parent"

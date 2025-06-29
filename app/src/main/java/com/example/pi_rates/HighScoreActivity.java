@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -30,6 +31,12 @@ public class HighScoreActivity extends AppCompatActivity {
     String userName;
     String url;
     ScoreDB db;
+    TextView bronzeName;
+    TextView bronzeScore;
+    TextView silverName;
+    TextView silverScore;
+    TextView goldName;
+    TextView goldScore;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +47,12 @@ public class HighScoreActivity extends AppCompatActivity {
         userName = intent.getStringExtra("USER_NAME");
         list =  findViewById(R.id.listview);
         url = Server.getURL() + "/highscore";
+        bronzeName = findViewById(R.id.bronzeName);
+        bronzeScore = findViewById(R.id.bronzeScore);
+        silverName = findViewById(R.id.silverName);
+        silverScore = findViewById(R.id.silverScore);
+        goldName = findViewById(R.id.goldName);
+        goldScore = findViewById(R.id.goldScore);
         Log.d("asd1", "url");
         db = new ScoreDB(this);
         db.setUserName(userName);
@@ -68,13 +81,34 @@ public class HighScoreActivity extends AppCompatActivity {
         try{
             JSONArray jsonArray = json.getJSONArray("Scores");
             arraySize =jsonArray.length();
-            users = new User[arraySize];
+            users = new User[arraySize-3];
             for(int i = 0; i < arraySize; i++){
                 JSONObject jsonObject = jsonArray.getJSONObject(i);
                 String name = jsonObject.getString("USER_NAME");
                 int score = jsonObject.getInt("Score");
                 String date = jsonObject.getString("Date");
-                users[i] = new User(name, score, date);
+                if (i<3)
+                {
+                    switch (i)
+                    {
+                        case 0:
+                            goldName.setText(name);
+                            goldScore.setText(String.valueOf(score));
+                            break;
+                        case 1:
+                            silverName.setText(name);
+                            silverScore.setText(String.valueOf(score));
+                            break;
+                        case 2:
+                            bronzeName.setText(name);
+                            bronzeScore.setText(String.valueOf(score));
+                            break;
+                    }
+                }
+                else
+                {
+                    users[i - 3] = new User(name, score, date);
+                }
             }
             Log.d("asd1", "fillView");
             fillView();

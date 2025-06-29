@@ -10,7 +10,7 @@ public class TaskGenerator {
 
     private static Random random = new Random();
 
-    public static Task generateTask(int level) {
+    public static Task generateTask(int level, String difficulty) {
         String operationType;
         int num1, num2, correctAnswer;
         String question;
@@ -19,7 +19,19 @@ public class TaskGenerator {
         int maxValue = Math.min(50, level * 10);
         int maxResult = Math.min(100, level * 10+10);
 
-        int operationChoice = random.nextInt(Math.min(level, 4));
+        int operationChoice = 0;
+        if (difficulty.equals("hard"))
+        {
+            operationChoice = random.nextInt(Math.min(level, 4));
+        }
+        if (difficulty.equals("medium"))
+        {
+            operationChoice = 2 + random.nextInt(2);
+        }
+        if (difficulty.equals("easy"))
+        {
+            operationChoice = random.nextInt(2);
+        }
         switch (operationChoice) {
             case 0:
                 operationType = "+";
