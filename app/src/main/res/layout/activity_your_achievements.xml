@@ -1,22 +1,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:background="@color/blue"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Your Achievements"
-        android:fontFamily="@font/pirata_one"
-        android:textSize="50sp"
-        android:textAlignment="center"
-        android:textColor="@color/black"
-        android:layout_gravity="center"/>
-
-    <ListView
-        android:id="@+id/achievementListView"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        android:background="@drawable/achivments_board"
+        android:orientation="vertical"
+        android:paddingTop="35dp"
+        android:paddingHorizontal="43dp">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Your Achievements"
+            android:fontFamily="@font/pirata_one"
+            android:textSize="50sp"
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:layout_gravity="center" />
+
+        <ListView
+            android:id="@+id/achievementListView"
+            android:layout_width="match_parent"
+            android:layout_height="475dp"
+            android:layout_marginBottom="58dp"/>
+        <TextView
+            android:layout_width="250dp"
+            android:layout_height="75dp"
+            android:layout_gravity="center"
+            android:textSize="45dp"
+            android:text="BACK"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:background="@drawable/button"
+            android:onClick="back"/>
+    </LinearLayout>
+
 </LinearLayout>

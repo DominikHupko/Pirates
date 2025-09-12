@@ -1,6 +1,8 @@
 package com.example.pi_rates;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ListView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -8,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.List;
 
 public class YourAchievementsActivity extends AppCompatActivity {
+
+    String userName;
 
     private ListView achievementListView;
     private AchievementManager achievementManager;
@@ -17,6 +21,9 @@ public class YourAchievementsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_your_achievements);
 
+        Intent intent = getIntent();
+        userName = intent.getStringExtra("USER_NAME");
+
         achievementListView = findViewById(R.id.achievementListView);
         achievementManager = new AchievementManager(this);
 
@@ -24,5 +31,11 @@ public class YourAchievementsActivity extends AppCompatActivity {
 
         AchievementAdapter adapter = new AchievementAdapter(this, achievements);
         achievementListView.setAdapter(adapter);
+    }
+    public void back (View view) {
+        Intent intent = new Intent(YourAchievementsActivity.this, MainActivity.class);
+        intent.putExtra("USER_NAME", userName);
+        startActivity(intent);
+        this.finish();
     }
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -37,6 +38,7 @@ public class HighScoreActivity extends AppCompatActivity {
     TextView silverScore;
     TextView goldName;
     TextView goldScore;
+    LinearLayout podium;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class HighScoreActivity extends AppCompatActivity {
         silverScore = findViewById(R.id.silverScore);
         goldName = findViewById(R.id.goldName);
         goldScore = findViewById(R.id.goldScore);
+        podium = findViewById(R.id.podium);
         Log.d("asd1", "url");
         db = new ScoreDB(this);
         db.setUserName(userName);
@@ -133,6 +136,7 @@ public class HighScoreActivity extends AppCompatActivity {
     public void LocalScore(View view){
         Log.d("ScoreDBLogD", "Db start");
         users = db.getScores("All");
+        podium.setVisibility(View.INVISIBLE);
         if(users != null)
             fillView();
         else {
@@ -140,6 +144,7 @@ public class HighScoreActivity extends AppCompatActivity {
         }
     }
     public void GlobalScore(View view){
+        podium.setVisibility(View.VISIBLE);
         download(url);
     }
 }

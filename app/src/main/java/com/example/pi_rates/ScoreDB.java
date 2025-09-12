@@ -72,7 +72,7 @@ public class ScoreDB  extends SQLiteOpenHelper {
             SQLiteDatabase db = this.getReadableDatabase();
             String query = "";
             if(method.equals("All")){
-                query = "SELECT " + NameCulomn + ", " + ScoreColumn + ", " + DateColumn + " FROM " + TableName + " ORDER BY " + ScoreColumn + " ;";
+                query = "SELECT " + NameCulomn + ", " + ScoreColumn + ", " + DateColumn + " FROM " + TableName + " ORDER BY " + ScoreColumn + "  DESC;";
             } else if (method.equals("only locals")) {
                 query = "SELECT " + NameCulomn + ", " + ScoreColumn + ", " + DateColumn + " FROM " + TableName + " WHERE " + UploadedColumn + " = 'FALSE'";
             }

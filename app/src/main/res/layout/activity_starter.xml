@@ -41,7 +41,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="25dp" />
 
     <TextView
         android:id="@+id/textView_app_name"
@@ -54,7 +54,7 @@
         app:layout_constraintTop_toBottomOf="@id/textView_welcome"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="20dp" />
+        android:layout_marginTop="10dp" />
 
     <Button
         android:id="@+id/login_as_player"
@@ -67,7 +67,21 @@
         app:layout_constraintTop_toBottomOf="@id/textView_app_name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="50dp" />
+        android:layout_marginTop="15dp" />
+
+    <Button
+        android:id="@+id/register"
+        android:layout_width="wrap_content"
+        android:layout_height="83dp"
+        android:backgroundTint="@color/black"
+        android:text="Registration"
+        android:textColor="@color/white"
+        android:textSize="35sp"
+        app:layout_constraintTop_toBottomOf="@id/login_as_player"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="15dp"
+        android:onClick="registration"/>
 
     <Button
         android:id="@+id/login_as_guest"
@@ -77,7 +91,7 @@
         android:text="Login as Guest"
         android:textColor="@color/white"
         android:textSize="35sp"
-        app:layout_constraintTop_toBottomOf="@id/login_as_player"
+        app:layout_constraintTop_toBottomOf="@id/register"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginTop="20dp" />

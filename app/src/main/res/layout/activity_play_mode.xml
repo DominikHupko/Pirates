@@ -20,6 +20,7 @@
             android:background="@drawable/easy"
             android:text="+ -"
             android:textSize="23pt"
+            android:textColor="@color/podium"
             android:textAlignment="center"
             android:onClick="easyMode"/>
         <TextView
@@ -28,6 +29,7 @@
             android:background="@drawable/medium"
             android:text="* /"
             android:textSize="23pt"
+            android:textColor="@color/podium"
             android:textAlignment="center"
             android:onClick="mediumMode"/>
         <TextView

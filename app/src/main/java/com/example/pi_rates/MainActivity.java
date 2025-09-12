@@ -48,21 +48,8 @@ public class MainActivity extends AppCompatActivity {
         userName = intent.getStringExtra("USER_NAME");
 
 
-        Button startButton = findViewById(R.id.button);
         Button quitButton = findViewById(R.id.button3);
-
-
-
-        startButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, PlayModeActivity.class);
-                intent.putExtra("USER_NAME", userName);
-                startActivity(intent);
-                //showLevelInputDialog();
-            }
-        });
-
+        
 
         quitButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -177,6 +164,12 @@ public class MainActivity extends AppCompatActivity {
     private void write(String response){
         Toast.makeText(this, "Server: " + response, Toast.LENGTH_SHORT).show();
     }
+    public void playMode (View view) {
+        Intent intent = new Intent(MainActivity.this, PlayModeActivity.class);
+        intent.putExtra("USER_NAME", userName);
+        startActivity(intent);
+        this.finish();
+    }
     public void scoreBoard(View view){
         Intent intent = new Intent(MainActivity.this, HighScoreActivity.class);
         intent.putExtra("USER_NAME", userName);
@@ -190,7 +183,9 @@ public class MainActivity extends AppCompatActivity {
     }
     public void openAchievements(View view) {
         Intent intent = new Intent(MainActivity.this, YourAchievementsActivity.class);
+        intent.putExtra("USER_NAME", userName);
         startActivity(intent);
+        this.finish();
     }
     @Override
     protected void onResume() {
