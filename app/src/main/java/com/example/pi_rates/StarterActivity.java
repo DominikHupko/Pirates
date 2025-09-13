@@ -26,21 +26,30 @@ public class StarterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_starter);
 
         Button loginAsPlayer = findViewById(R.id.login_as_player);
+        Button registerUser = findViewById(R.id.registration);
         Button loginAsGuest = findViewById(R.id.login_as_guest);
 
-        loginAsPlayer.setOnClickListener(v -> showNameDialog());
+        loginAsPlayer.setOnClickListener(v -> showNameDialog("login"));
+        registerUser.setOnClickListener(V -> showNameDialog("registration"));
         loginAsGuest.setOnClickListener(v -> loginAsGuest());
     }
 
-    private void showNameDialog() {
+    private void showNameDialog(String event ) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_enter_name, null);
         builder.setView(dialogView);
 
         EditText nameInput = dialogView.findViewById(R.id.name_input);
+        EditText passwordInput = dialogView.findViewById(R.id.password_input);
         Button positiveButton = dialogView.findViewById(R.id.positive_button);
         Button negativeButton = dialogView.findViewById(R.id.negative_button);
-
+        if (event.equals("login")) {
+            positiveButton.setText("Login");
+        }
+        else {
+            positiveButton.setText("Registration");
+        }
+        positiveButton.setText("Registration");
         AlertDialog dialog = builder.create();
 
 
@@ -48,18 +57,30 @@ public class StarterActivity extends AppCompatActivity {
             positiveButton.setEnabled(false);
             negativeButton.setEnabled(false);
             String name = nameInput.getText().toString().trim();
-            if (!name.isEmpty()) {
-                String link = Server.getURL() + "/sendUserName";
+            String password = passwordInput.getText().toString().trim();
+            if (!name.isEmpty() && !password.isEmpty()) {
+                String link = Server.getURL() + "/"+ event;
                 Server server = new Server(this);
-                server.sendUserName(link, name,new Server.GotJson() {
+                server.sendUserNamePassword(link, name, password,new Server.GotJson() {
                     @Override
                     public void onSuccess(JSONObject response){
-                        dialog.dismiss();
-                        parseJson(response);
+                        String userName = parseJson(response);
+                        if (userName.equals("error"))
+                        {
+                            Toast.makeText(StarterActivity.this, "Wrong name or password", Toast.LENGTH_SHORT).show();
+                            positiveButton.setEnabled(true);
+                            negativeButton.setEnabled(true);
+                        }
+                        else
+                        {
+                            dialog.dismiss();
+                            goToMainMenu(userName);
+                        }
+
                     }
                 });
             } else {
-                Toast.makeText(this, "Name cannot be empty", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, "Input cannot be empty", Toast.LENGTH_SHORT).show();
                 positiveButton.setEnabled(true);
                 negativeButton.setEnabled(true);
             }
@@ -83,19 +104,25 @@ public class StarterActivity extends AppCompatActivity {
         int number = random.nextInt(9000) + 1000;
         return String.valueOf(number);
     }
-    private void parseJson(JSONObject json){
+    private String parseJson(JSONObject json){
         try{
+            Log.d("Json receive", String.valueOf(json));
             String name = json.getString("username");
-            Intent intent = new Intent(StarterActivity.this,MainActivity.class);
-            intent.putExtra("USER_NAME",name);
-            SharedPreferences sharedPreferences = getSharedPreferences("UserLog", Context.MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("USER_NAME", name);
-            editor.apply();
-            startActivity(intent);
-            finish();
+            return name;
         }catch (JSONException exp){
             Log.d("Json error","Error: " + exp);
+            return "error";
         }
+    }
+    private void goToMainMenu (String userName)
+    {
+        Intent intent = new Intent(StarterActivity.this,MainActivity.class);
+        intent.putExtra("USER_NAME",userName);
+        SharedPreferences sharedPreferences = getSharedPreferences("UserLog", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("USER_NAME", userName);
+        editor.apply();
+        startActivity(intent);
+        finish();
     }
 }

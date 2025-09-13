@@ -18,7 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class Server {
-    public static String getURL() {return"https://7a0f-109-245-227-198.ngrok-free.app"; }
+    public static String getURL() {return"https://1f2c140ae49d.ngrok-free.app/"; }
     private Context context;
     public Server(Context context){
         this.context = context;
@@ -48,12 +48,13 @@ public class Server {
             Toast.makeText(context, "Please provide a valid link", Toast.LENGTH_SHORT).show();
         }
     }
-    public void sendUserName(String link, String name, GotJson gotJson){
+    public void sendUserNamePassword(String link, String name, String password,GotJson gotJson){
         if(!name.isEmpty()){
             RequestQueue requestQueue = Volley.newRequestQueue(context);
             JSONObject jsonObject = new JSONObject();
             try{
                 jsonObject.put("USER_NAME", name);
+                jsonObject.put("USER_PASSWORD", password);
             }
             catch (JSONException exp){
                 Log.d("JSONERROR","Error: " + exp);

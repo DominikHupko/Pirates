@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
         dialog.show();
     }
     public void Testing(View view) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        /*AlertDialog.Builder builder = new AlertDialog.Builder(this);
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_server_connection, null);
         builder.setView(dialogView);
 
@@ -114,7 +114,10 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        dialog.show();
+        dialog.show();*/
+        Intent intent = new Intent(MainActivity.this, StarterActivity.class);
+        startActivity(intent);
+        this.finish();
     }
 
     private void showLevelInputDialog() {
