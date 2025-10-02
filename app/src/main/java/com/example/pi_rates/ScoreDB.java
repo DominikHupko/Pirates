@@ -1,9 +1,11 @@
 package com.example.pi_rates;
 
+import static android.content.Context.MODE_PRIVATE;
 import static java.lang.System.out;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -118,7 +120,7 @@ public class ScoreDB  extends SQLiteOpenHelper {
         Log.d("ScoreDBLogD", "I got the numder of saves. The saves: " + games);
         return games;
     }
-    public JSONObject localScorers(String userName){
+    public JSONObject localScorers(String userName, String avatar){
         User[] users = getScores("only locals");
         JSONObject usersScore = new JSONObject();
         try{
@@ -144,6 +146,7 @@ public class ScoreDB  extends SQLiteOpenHelper {
                 usersScore.put("upload", "false");
             }
             usersScore.put("USER_NAME", userName);
+            usersScore.put("AVATAR", avatar);
         }catch (JSONException exception){
             Log.d("JSONError", " " + exception);
             try{
