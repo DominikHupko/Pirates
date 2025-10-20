@@ -10,7 +10,7 @@
 
 
     <ImageView
-        android:id="@+id/soundToggle"
+        android:id="@+id/fdghdfgh"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:layout_marginTop="16dp"
@@ -27,7 +27,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="20dp"
         android:src="@drawable/gear"
-        android:onClick="toggleSound"
+        android:onClick="settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 

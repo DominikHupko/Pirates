@@ -23,7 +23,7 @@ public class PlayModeActivity extends AppCompatActivity {
         intent.putExtra("USER_NAME", userName);
         intent.putExtra("MODE", "easy");
         startActivity(intent);
-        finish();
+        this.finish();
     }
     public void mediumMode (View view)
     {
@@ -31,7 +31,7 @@ public class PlayModeActivity extends AppCompatActivity {
         intent.putExtra("USER_NAME", userName);
         intent.putExtra("MODE", "medium");
         startActivity(intent);
-        finish();
+        this.finish();
     }
     public void hardMode (View view)
     {
@@ -39,13 +39,10 @@ public class PlayModeActivity extends AppCompatActivity {
         intent.putExtra("USER_NAME", userName);
         intent.putExtra("MODE", "hard");
         startActivity(intent);
-        finish();
+        this.finish();
     }
     public void back (View view)
     {
-        Intent intent = new Intent(PlayModeActivity.this, MainActivity.class);
-        intent.putExtra("USER_NAME", userName);
-        startActivity(intent);
-        finish();
+        this.finish();
     }
 }

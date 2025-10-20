@@ -4,9 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
     android:background="@color/blue">
 
+    <ImageView
+        android:id="@+id/life_background"
+        android:layout_width="420dp"
+        android:layout_height="120dp"
+        android:background="@drawable/sign2"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:elevation="2dp"/>
     <TextView
         android:id="@+id/timerTextView"
         android:layout_width="wrap_content"
@@ -16,10 +24,10 @@
         android:textColor="@color/black"
         android:textSize="30sp"
         android:textStyle="bold"
-        android:layout_marginStart="140dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:layout_marginTop="100dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <TextView
         android:id="@+id/levelTextView"
@@ -36,42 +44,62 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/scoreTextView" />
+        app:layout_constraintBottom_toBottomOf="parent"/>
 
+    <TextView
+        android:id="@+id/lifewriten"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:text="Lives:"
+        android:textSize="30dp"
+        android:textColor="@color/black"
+        android:elevation="5dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginLeft="50dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/life1"/>
     <ImageView
         android:id="@+id/life1"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:src="@drawable/pirate"
+        android:elevation="5dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginRight="25dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="65dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="@id/life2" />
+        app:layout_constraintLeft_toRightOf="@id/lifewriten"
+        app:layout_constraintRight_toRightOf="@id/life2"/>
 
     <ImageView
         android:id="@+id/life2"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:src="@drawable/pirate"
+        android:elevation="5dp"
+        android:layout_marginTop="18dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="65dp"
-        app:layout_constraintStart_toEndOf="@id/life1"
-        app:layout_constraintEnd_toStartOf="@id/life3" />
+        app:layout_constraintLeft_toLeftOf="@id/life1"
+        app:layout_constraintRight_toRightOf="@id/life3"/>
 
     <ImageView
         android:id="@+id/life3"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
+        android:layout_width="65dp"
+        android:layout_height="65dp"
         android:src="@drawable/pirate"
+        android:elevation="5dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginLeft="18dp"
+        android:layout_marginRight="22dp"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="65dp"
-        app:layout_constraintStart_toStartOf="@id/life2"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintLeft_toLeftOf="@id/life2"
+        app:layout_constraintRight_toRightOf="parent"/>
 
     <TextView
         android:id="@+id/taskTextView"
-        android:layout_width="388dp"
-        android:layout_height="335dp"
+        android:layout_width="380dp"
+        android:layout_height="268dp"
         android:background="@drawable/sign"
         android:elevation="1dp"
         android:gravity="bottom"
@@ -79,8 +107,9 @@
         android:textAlignment="center"
         android:paddingBottom="55dp"
         android:textColor="@color/black"
-        android:textSize="60sp"
+        android:textSize="50sp"
         android:textStyle="bold"
+        android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -88,12 +117,12 @@
 
     <LinearLayout
         android:id="@+id/answerLayout"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:gravity="center"
-        android:layout_marginTop="130dp"
-        app:layout_constraintTop_toBottomOf="@id/taskTextView"
+        android:padding="15dp"
+        app:layout_constraintBottom_toTopOf="@id/scoreTextView"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
@@ -102,7 +131,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Option 1"
+            android:text="Option"
             android:textSize="22sp"
             android:padding="16dp"
             android:gravity="center"
@@ -118,7 +147,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Option 2"
+            android:text="Option"
             android:textSize="22sp"
             android:padding="16dp"
             android:gravity="center"
@@ -134,7 +163,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Option 3"
+            android:text="Option"
             android:textSize="22sp"
             android:padding="16dp"
             android:gravity="center"
@@ -151,7 +180,7 @@
         android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="#666666"
-        android:textSize="30sp"
+        android:textSize="26sp"
         android:textStyle="bold"
         app:layout_constraintTop_toBottomOf="@id/taskTextView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -172,6 +201,6 @@
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/answerLayout" />
+        app:layout_constraintBottom_toTopOf="@id/levelTextView"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

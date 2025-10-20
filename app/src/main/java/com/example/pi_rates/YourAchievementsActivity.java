@@ -33,9 +33,6 @@ public class YourAchievementsActivity extends AppCompatActivity {
         achievementListView.setAdapter(adapter);
     }
     public void back (View view) {
-        Intent intent = new Intent(YourAchievementsActivity.this, MainActivity.class);
-        intent.putExtra("USER_NAME", userName);
-        startActivity(intent);
         this.finish();
     }
 }

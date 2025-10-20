@@ -165,10 +165,7 @@ public class HighScoreActivity extends AppCompatActivity {
         db.updatedScores();
     }
     public void Home(View view){
-        Intent intent = new Intent(HighScoreActivity.this, MainActivity.class);
-        intent.putExtra("USER_NAME", userName);
-        startActivity(intent);
-        finish();
+        this.finish();
     }
     public void LocalScore(View view){
         Log.d("ScoreDBLogD", "Db start");

@@ -3,6 +3,8 @@ package com.example.pi_rates;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -26,6 +28,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
     private String difficulty;
     private CountDownTimer countDownTimer;
     private long timeLeftInMillis = 31000;
+    private boolean isTimerRunning = false;
     private TextView option1, option2, option3;
     private TextView taskTextView, feedbackTextView, scoreTextView, levelTextView;
     private int correctAnswer, score = 0;
@@ -40,6 +43,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
     private ScoreDB db;
     int correctStreak = 0;
     boolean madeMistake = false;
+    private long timeLeft;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,6 +95,8 @@ public class TaskGeneratorActivity extends AppCompatActivity {
     }
 
     private void showAchievementDialog(String title, String description) {
+        countDownTimer.cancel();
+        countDownTimer = null;
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_achievement_unlocked, null);
         TextView titleView = dialogView.findViewById(R.id.achievementTitle);
         TextView descriptionView = dialogView.findViewById(R.id.achievementDescription);
@@ -98,10 +104,17 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         titleView.setText(title);
         descriptionView.setText(description);
 
-        new AlertDialog.Builder(this)
+        AlertDialog dialog = new AlertDialog.Builder(this)
                 .setView(dialogView)
                 .setCancelable(true)
-                .show();
+                .create();
+
+        dialog.setOnDismissListener(dialogInterface -> {
+            startCountDownTimer();
+        });
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        dialog.show();
     }
     private void generateNewTask() {
         if (correctAnswerCount % 10 == 0 && correctAnswerCount > 0) {
@@ -222,7 +235,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
     }
 
     private void showGameOverDialog() {
-
+        countDownTimer.cancel();
         if (!userName.equals("Geust"))
         {
             db.insertScore(score);
@@ -231,23 +244,33 @@ public class TaskGeneratorActivity extends AppCompatActivity {
             achievementManager.unlockAchievement("no_mistakes");
             showAchievementDialog("Perfect Game", "You had no errors!");
         }
-        View dialogView = getLayoutInflater().inflate(R.layout.dialog_game_over, null);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_time_up, null);
 
-        TextView gameOverMessage = dialogView.findViewById(R.id.gameOverMessage);
+        TextView timeUpMessage = dialogView.findViewById(R.id.timeUpMessage);
         TextView finalScoreMessage = dialogView.findViewById(R.id.finalScoreMessage);
         Button backToMainMenuButton = dialogView.findViewById(R.id.backToMainMenuButton);
+        Button highScoreButton = dialogView.findViewById(R.id.highScoreButton);
 
+        timeUpMessage.setText("Game over");
         finalScoreMessage.setText("Your final score: " + score);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(TaskGeneratorActivity.this);
         builder.setView(dialogView);
 
+
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(false);
-        dialog.show();
+        if(!isFinishing()) {
+            dialog.show();
+        }
 
         backToMainMenuButton.setOnClickListener(v -> {
-            Intent intent = new Intent(TaskGeneratorActivity.this, MainActivity.class);
+            this.finish();
+        });
+
+        highScoreButton.setOnClickListener(v -> {
+            Intent intent = new Intent(TaskGeneratorActivity.this, HighScoreActivity.class);
             intent.putExtra("USER_NAME", userName);
             startActivity(intent);
             finish();
@@ -269,6 +292,10 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         startCountDownTimer();
     }
     private void startCountDownTimer() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+        }
         countDownTimer = new CountDownTimer(timeLeftInMillis, 1000) {
             @Override
             public void onTick(long millisUntilFinished) {
@@ -289,6 +316,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
             }
         };
         countDownTimer.start();
+        isTimerRunning = true;
     }
 
 
@@ -303,6 +331,7 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         Button backToMainMenuButton = dialogView.findViewById(R.id.backToMainMenuButton);
         Button highScoreButton = dialogView.findViewById(R.id.highScoreButton);
 
+        timeUpMessage.setText("Time is Up");
         finalScoreMessage.setText("Your final score: " + score);
 
         AlertDialog.Builder builder = new AlertDialog.Builder(TaskGeneratorActivity.this);
@@ -310,16 +339,14 @@ public class TaskGeneratorActivity extends AppCompatActivity {
 
 
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
         dialog.setCancelable(false);
         if(!isFinishing()) {
             dialog.show();
         }
 
         backToMainMenuButton.setOnClickListener(v -> {
-            Intent intent = new Intent(TaskGeneratorActivity.this, MainActivity.class);
-            intent.putExtra("USER_NAME", userName);
-            startActivity(intent);
-            finish();
+            this.finish();
         });
 
         highScoreButton.setOnClickListener(v -> {
@@ -335,10 +362,19 @@ public class TaskGeneratorActivity extends AppCompatActivity {
     }
 
     private void showLevelUpPopup() {
+        if (countDownTimer != null) {
+            countDownTimer.cancel();
+            countDownTimer = null;
+            isTimerRunning = false;
+        }
 
         LevelUpPopupFragment popupFragment = new LevelUpPopupFragment();
+        popupFragment.setOnDismissListener(() -> {
+            if (!isTimerRunning){
+                startCountDownTimer();
+            }
+        });
         popupFragment.show(getSupportFragmentManager(), "LevelUpPopup");
-
     }
 
 }

@@ -1,5 +1,6 @@
 package com.example.pi_rates;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -39,5 +40,8 @@ public class SettingsActivity extends AppCompatActivity {
         editor.apply();
 
         Toast.makeText(this, "Avatar selected: " + avatar, Toast.LENGTH_SHORT).show();
+    }
+    public void back (View view) {
+        this.finish();
     }
 }

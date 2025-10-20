@@ -56,6 +56,7 @@ public class StarterActivity extends AppCompatActivity {
 
 
         positiveButton.setOnClickListener(v -> {
+            v.setAlpha(0.7f);
             positiveButton.setEnabled(false);
             negativeButton.setEnabled(false);
             String name = nameInput.getText().toString().trim();
@@ -85,6 +86,7 @@ public class StarterActivity extends AppCompatActivity {
                 Toast.makeText(this, "Input cannot be empty", Toast.LENGTH_SHORT).show();
                 positiveButton.setEnabled(true);
                 negativeButton.setEnabled(true);
+                v.setAlpha(1f);
             }
         });
 

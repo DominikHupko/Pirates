@@ -1,5 +1,6 @@
 package com.example.pi_rates;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -10,6 +11,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.DialogFragment;
 
 public class LevelUpPopupFragment extends DialogFragment {
+
+    private Runnable onDismissListener;
 
     @Nullable
     @Override
@@ -26,5 +29,16 @@ public class LevelUpPopupFragment extends DialogFragment {
         }
 
         new Handler().postDelayed(this::dismiss, 2000);
+    }
+    public void setOnDismissListener(Runnable listener) {
+        this.onDismissListener = listener;
+    }
+
+    @Override
+    public void onDismiss(@NonNull DialogInterface dialog) {
+        super.onDismiss(dialog);
+        if (onDismissListener != null) {
+            onDismissListener.run();
+        }
     }
 }

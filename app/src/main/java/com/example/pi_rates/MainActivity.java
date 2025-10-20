@@ -1,28 +1,22 @@
 package com.example.pi_rates;
 
-import android.content.DialogInterface;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -78,6 +72,7 @@ public class MainActivity extends AppCompatActivity {
 
         Button continueButton = dialogView.findViewById(R.id.continue_button);
         AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
 
         continueButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -121,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showLevelInputDialog() {
+        /*
         // Create a Dialog
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
 
@@ -161,7 +157,7 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog dialog = dialogBuilder.create();
         if(!isFinishing()) {
             dialog.show();
-        }
+        }*/
     }
 
     private void write(String response){
@@ -171,24 +167,21 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(MainActivity.this, PlayModeActivity.class);
         intent.putExtra("USER_NAME", userName);
         startActivity(intent);
-        this.finish();
     }
     public void scoreBoard(View view){
         Intent intent = new Intent(MainActivity.this, HighScoreActivity.class);
         intent.putExtra("USER_NAME", userName);
         startActivity(intent);
-        finish();
     }
     public void openSettings(View view) {
         Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
         intent.putExtra("USER_NAME", userName);
-        startActivity(intent);
+        startActivity(intent); 
     }
     public void openAchievements(View view) {
         Intent intent = new Intent(MainActivity.this, YourAchievementsActivity.class);
         intent.putExtra("USER_NAME", userName);
         startActivity(intent);
-        this.finish();
     }
     @Override
     protected void onResume() {
@@ -216,7 +209,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void toggleSound(View view) {
+    /*public void toggleSound(View view) {
         ImageView soundToggle = findViewById(R.id.soundToggle);
 
         if (mediaPlayer != null) {
@@ -233,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences prefs = getSharedPreferences("MusicPrefs", MODE_PRIVATE);
             prefs.edit().putBoolean("IS_MUSIC_PLAYING", isMusicPlaying).apply();
         }
-    }
+    }*/
     @Override
     protected void onDestroy() {
         if (mediaPlayer != null) {
@@ -241,5 +234,55 @@ public class MainActivity extends AppCompatActivity {
             mediaPlayer = null;
         }
         super.onDestroy();
+    }
+    public void settings (View view)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        View dialogView = getLayoutInflater().inflate(R.layout.dialog_settings, null);
+        builder.setView(dialogView);
+        Log.d("sound settings", "builder got view");
+
+        // create button image
+        ImageView imageView = dialogView.findViewById(R.id.close_settings);
+        ImageView soundToggle = dialogView.findViewById(R.id.soundToggle);
+        TextView logOut = dialogView.findViewById(R.id.log_out_button);
+        Log.d("sound settings", "objects have initailed");
+
+        //show dialog
+        AlertDialog dialog = builder.create();
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        Log.d("sound settings", "dialog has shown");
+
+        imageView.setOnClickListener(v -> {
+            dialog.dismiss();
+        });
+        soundToggle.setOnClickListener(v -> {
+            if (mediaPlayer != null) {
+                if (isMusicPlaying) {
+                    mediaPlayer.pause();
+                    soundToggle.setImageResource(R.drawable.sound_off);
+                } else {
+                    mediaPlayer.start();
+                    soundToggle.setImageResource(R.drawable.sound_on);
+                }
+                isMusicPlaying = !isMusicPlaying;
+
+                // Save the state to SharedPreferences
+                SharedPreferences prefs = getSharedPreferences("MusicPrefs", MODE_PRIVATE);
+                prefs.edit().putBoolean("IS_MUSIC_PLAYING", isMusicPlaying).apply();
+            }
+        });
+        logOut.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this,StarterActivity.class);
+            SharedPreferences sharedPreferences = getSharedPreferences("UserLog", Context.MODE_PRIVATE);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putString("USER_NAME", "Guest");
+            editor.apply();
+            startActivity(intent);
+            finish();
+        });
+        dialog.show();
+        dialog.getWindow().setLayout(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
     }
 }

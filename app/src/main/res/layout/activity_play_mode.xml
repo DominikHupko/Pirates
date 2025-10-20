@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -8,12 +9,41 @@
     android:orientation="vertical"
     android:padding="5dp"
     android:background="@color/blue">
+
+    <TextView
+        android:id="@+id/textchoose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pirata_one"
+        android:text="@string/choose"
+        android:textColor="@color/black"
+        android:textSize="50sp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"/>
+    <TextView
+        android:id="@+id/textView_difficulty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="@font/pirata_one"
+        android:text="@string/level"
+        android:textColor="@color/black"
+        android:textSize="50sp"
+        android:layout_marginTop="25dp"
+        app:layout_constraintTop_toBottomOf="@id/textchoose"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"/>
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_gravity="center"
-        android:layout_marginTop="170dp">
+        android:layout_marginBottom="25dp"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
         <TextView
             android:layout_width="250dp"
             android:layout_height="75dp"
@@ -22,6 +52,7 @@
             android:textSize="23pt"
             android:textColor="@color/podium"
             android:textAlignment="center"
+            android:textStyle="bold"
             android:onClick="easyMode"/>
         <TextView
             android:layout_width="250dp"
@@ -31,6 +62,7 @@
             android:textSize="23pt"
             android:textColor="@color/podium"
             android:textAlignment="center"
+            android:textStyle="bold"
             android:onClick="mediumMode"/>
         <TextView
             android:layout_width="250dp"
@@ -40,6 +72,7 @@
             android:textSize="23pt"
             android:textColor="@color/white"
             android:textAlignment="center"
+            android:textStyle="bold"
             android:onClick="hardMode"/>
         <TextView
             android:layout_width="250dp"
@@ -51,12 +84,25 @@
             android:textAlignment="center"
             android:onClick="back"/>
     </LinearLayout>
-    <ImageView
-        android:layout_width="210dp"
-        android:layout_height="216dp"
-        android:layout_marginTop="30dp"
-        android:layout_gravity="end|bottom"
-        app:srcCompat="@drawable/pirate"/>
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+        <ImageView
+            android:layout_width="210dp"
+            android:layout_height="216dp"
+            android:layout_marginTop="15dp"
+            app:srcCompat="@drawable/tree"/>
+        <ImageView
+            android:layout_width="210dp"
+            android:layout_height="216dp"
+            android:layout_marginTop="15dp"
+            app:srcCompat="@drawable/pirate"/>
+    </LinearLayout>
 
 
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
