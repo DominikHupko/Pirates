@@ -11,6 +11,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.OvershootInterpolator;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -45,6 +46,19 @@ public class StarterActivity extends AppCompatActivity {
         EditText passwordInput = dialogView.findViewById(R.id.password_input);
         Button positiveButton = dialogView.findViewById(R.id.positive_button);
         Button negativeButton = dialogView.findViewById(R.id.negative_button);
+
+        dialogView.setScaleX(0.8f);
+        dialogView.setScaleY(0.8f);
+        dialogView.setAlpha(0f);
+
+        dialogView.animate()
+                .scaleX(1f)
+                .scaleY(1f)
+                .alpha(1f)
+                .setDuration(600)
+                .setInterpolator(new OvershootInterpolator())
+                .start();
+
         if (event.equals("login")) {
             positiveButton.setText("Login");
         }

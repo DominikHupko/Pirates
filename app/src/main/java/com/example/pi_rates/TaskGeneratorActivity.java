@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.util.Log;
@@ -92,11 +93,16 @@ public class TaskGeneratorActivity extends AppCompatActivity {
         }
 
         lives--;
+        MediaPlayer.create(this,R.raw.damge_sound).start();
     }
 
     private void showAchievementDialog(String title, String description) {
         countDownTimer.cancel();
         countDownTimer = null;
+
+        MediaPlayer levelup = MediaPlayer.create(this, R.raw.levelup);
+        levelup.start();
+
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_achievement_unlocked, null);
         TextView titleView = dialogView.findViewById(R.id.achievementTitle);
         TextView descriptionView = dialogView.findViewById(R.id.achievementDescription);
@@ -244,6 +250,10 @@ public class TaskGeneratorActivity extends AppCompatActivity {
             achievementManager.unlockAchievement("no_mistakes");
             showAchievementDialog("Perfect Game", "You had no errors!");
         }
+
+        MediaPlayer levelup = MediaPlayer.create(this, R.raw.game_over);
+        levelup.start();
+
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_time_up, null);
 
         TextView timeUpMessage = dialogView.findViewById(R.id.timeUpMessage);
@@ -323,6 +333,8 @@ public class TaskGeneratorActivity extends AppCompatActivity {
     private void showTimeUpDialog() {
         countDownTimer.cancel();
 
+        MediaPlayer levelup = MediaPlayer.create(this, R.raw.game_over);
+        levelup.start();
 
         View dialogView = getLayoutInflater().inflate(R.layout.dialog_time_up, null);
 
@@ -374,6 +386,9 @@ public class TaskGeneratorActivity extends AppCompatActivity {
                 startCountDownTimer();
             }
         });
+        MediaPlayer levelup = MediaPlayer.create(this, R.raw.levelup);
+        levelup.start();
+
         popupFragment.show(getSupportFragmentManager(), "LevelUpPopup");
     }
 
